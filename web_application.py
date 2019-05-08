@@ -12,6 +12,6 @@ def index():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.config["SECRET_KEY"] = "ITSASECRET"
+    #app.config["SECRET_KEY"] = "ITSASECRET"
     http_server = WSGIServer(('', 5000), app, keyfile='key.pem', certfile='cert.pem')
     http_server.serve_forever()
