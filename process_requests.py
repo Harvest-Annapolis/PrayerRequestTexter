@@ -2,7 +2,7 @@
 from parse_requests import get_message
 from send_message import send_message
 
-numbers = [ "+13347968921" , "+15867702894" ]
+numbers = [ "+13347968921" , "+15867702894" , "+16315990273" , "+14107034138" ]
 prayer_request = get_message()
 
 for phone in numbers:

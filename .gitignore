@@ -1,2 +1,4 @@
 __pycache__/
 secure.py
+server.crt
+server.key
