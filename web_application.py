@@ -2,7 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-import jsonpickle
+from db_repo import *
 
 app = Flask(__name__)
 
@@ -15,9 +15,19 @@ def index():
     
 @app.route("/test_info", methods=["POST"])
 def test_twilio():
+    phone_number = request.form["phone_number"]
+    message_content = request.form["message_content"]
+    
+    cust = Customer.get(Customer.phone_number == phone_number) 
+    if cust == None:
+        cust = Customer.create(phone_number=phone_number)    
     f = open("/tmp/testme.txt", "w")
-    f.write(jsonpickle.encode(request.form))
-    f.close()
+    f.write(phone_number)
+    f.write(message_content)
+    f.write(cust.created_date)
+    f.write(cust.execute_time)
+    f.write(cust.last_run_date)
+    f.write(cust.enabled)
     return render_template('success.html') 
 
 if __name__ == "__main__":

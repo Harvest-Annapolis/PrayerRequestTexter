@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from parse_requests import get_message
 from send_message import send_message
+from db_repo import *
 
 numbers = [ "+13347968921" , "+15867702894" , "+16315990273" , "+14107034138" ]
 prayer_request = get_message()
