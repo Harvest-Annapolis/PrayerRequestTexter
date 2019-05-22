@@ -45,7 +45,7 @@ def test_twilio():
         if hrs < 24 and mins < 60:
             if "pm" in message_content.lower() and hrs < 12:
                 hrs += 12
-            cust.execute_time = datetime.datetime(2000,1,1,hrs,mins,0).time
+            cust.execute_time = datetime.datetime(2000,1,1,hrs,mins,0).time()
             cust.save()
 
         if not send_welcome:
