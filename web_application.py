@@ -18,9 +18,10 @@ def test_twilio():
     phone_number = request.form["phone_number"]
     message_content = request.form["message_content"]
     
-    cust = Customer.get(Customer.phone_number == phone_number) 
+    cust = Customer.get_or_none(Customer.phone_number == phone_number) 
     if cust == None:
-        cust = Customer.create(phone_number=phone_number)    
+        cust = Customer(phone_number=phone_number)    
+        cust.save()
     f = open("/tmp/testme.txt", "w")
     f.write(phone_number)
     f.write(message_content)
