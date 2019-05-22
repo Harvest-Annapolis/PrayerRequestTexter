@@ -21,7 +21,7 @@ def test_twilio():
     cust = Customer.get_or_none(Customer.phone_number == phone_number) 
     if cust == None:
         cust = Customer(phone_number=phone_number)    
-        cust.save()
+        cust.save(force_insert=True)
     f = open("/tmp/testme.txt", "w")
     f.write(phone_number)
     f.write(message_content)
