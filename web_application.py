@@ -35,7 +35,7 @@ def test_twilio():
                     hrs += 12
                 cust.execute_time = datetime.datetime(2000,1,1,hrs,0,0).time
                 cust.save()
-        elif len(time_value) == 4 || len(time_value) == 6:
+        elif len(time_value) == 4 or len(time_value) == 6:
             hrs = int(time_value[0:2])
             mins = int(time_value[2:4])
             if hrs < 24 and mins < 60:
