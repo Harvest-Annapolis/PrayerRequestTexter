@@ -30,22 +30,24 @@ def test_twilio():
         send_welcome = True
     
     time_value = "".join([i for i in message_content if i.isdigit()])
-    if len(time_value) in [2, 4, 6]:
-        if len(time_value) == 2:
+    if len(time_value) <= 6:
+        good_time = False
+        if len(time_value) in [1, 2]:
             hrs = int(time_value)
-            if hrs < 24:
-                if "pm" in message_content.lower() and hrs < 12:
-                    hrs += 12
-                cust.execute_time = datetime.datetime(2000,1,1,hrs,0,0).time
-                cust.save()
-        elif len(time_value) == 4 or len(time_value) == 6:
+            mins = 0
+        elif len(time_value) in [3, 5]:
+            hrs = int(time_value[0])
+            mins = int(time_value[1:3])
+        elif len(time_value) in [4, 6]:
             hrs = int(time_value[0:2])
             mins = int(time_value[2:4])
-            if hrs < 24 and mins < 60:
-                if "pm" in message_content.lower() and hrs < 12:
-                    hrs += 12
-                cust.execute_time = datetime.datetime(2000,1,1,hrs,mins,0).time
-                cust.save()
+
+        if hrs < 24 and mins < 60:
+            if "pm" in message_content.lower() and hrs < 12:
+                hrs += 12
+            cust.execute_time = datetime.datetime(2000,1,1,hrs,mins,0).time
+            cust.save()
+
         if not send_welcome:
             status = send_message(cust.phone_number, "You have adjusted the time you receive the daily prayer text to {}.".format(cust.execute_time.strftime("%I:%M %p")))
     elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
