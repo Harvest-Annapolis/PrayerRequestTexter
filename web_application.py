@@ -45,13 +45,13 @@ def test_twilio():
                 cust.save()
         if not send_welcome:
             status = send_message(cust.phone_number, "You have adjusted the time you receive the daily prayer text to {}.".format(cust.execute_time.strftime("%I:%M %p")))
-     elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
+    elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
         cust.enabled = False
         cust.save()
         status = send_message(cust.phone_number, "You have been unsubscribed.  If you ever want to re-subscribe, simply text us with the time you would like to get your daily prayer requests.")
-     elif not send_welcome:
+    elif not send_welcome:
         status = send_message(cust.phone_number, "Sorry, I don't recognize that command.")
-     elif send_welcome:
+    elif send_welcome:
         status = send_message(cust.phone_number, "Thank you for subscribing to the Harvest Prayer Request text list.  You will currently receive a daily prayer request at {}.  To change this time, simply reply with the time you would prefer.  To stop these messages, simply reply STOP.".format(cust.execute_time.strftime("%I:%M %p")))
     
     return render_template('success.html') 
