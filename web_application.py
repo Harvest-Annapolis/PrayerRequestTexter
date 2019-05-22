@@ -25,10 +25,10 @@ def test_twilio():
     f = open("/tmp/testme.txt", "w")
     f.write(phone_number)
     f.write(message_content)
-    f.write(cust.created_date)
-    f.write(cust.execute_time)
-    f.write(cust.last_run_date)
-    f.write(cust.enabled)
+    f.write(cust.created_date.strftime("%Y-%m-%d %H:%M:%S"))
+    f.write(cust.execute_time.strftime("%H:%M:%S"))
+    f.write(cust.last_run_date.strftime("%Y-%m-%d"))
+    f.write(str(cust.enabled))
     return render_template('success.html') 
 
 if __name__ == "__main__":
