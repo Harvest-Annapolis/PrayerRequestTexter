@@ -9,9 +9,9 @@ class BaseModel(Model):
         
 class Customer(BaseModel):
     phone_number = CharField(primary_key=True)
-    created_date = DateTimeField(default=datetime.datetime.now)
-    execute_time = TimeField(default=datetime.datetime.now().time)
-    last_run_date = DateField(default=datetime.datetime.now().date)
+    created_date = DateTimeField(default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    execute_time = TimeField(default="10:00:00")
+    last_run_date = DateField(default=datetime.datetime.now().strftime('%Y-%m-%d'))
     enabled = BooleanField(default=True)
     
     
