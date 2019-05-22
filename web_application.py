@@ -25,6 +25,9 @@ def test_twilio():
         cust = Customer(phone_number=phone_number)    
         cust.save(force_insert=True)
         send_welcome = True
+        
+    if not cust.enabled and ("yes" in message_content.lower() or "subscribe" in message_content.lower()):
+        send_welcome = True
     
     time_value = "".join([i for i in message_content if i.isdigit()])
     if len(time_value) in [2, 4, 6]:
@@ -48,7 +51,6 @@ def test_twilio():
     elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
         cust.enabled = False
         cust.save()
-        status = send_message(cust.phone_number, "You have been unsubscribed.  If you ever want to re-subscribe, simply text us with the time you would like to get your daily prayer requests.")
     elif not send_welcome:
         status = send_message(cust.phone_number, "Sorry, I don't recognize that command.")
     elif send_welcome:
