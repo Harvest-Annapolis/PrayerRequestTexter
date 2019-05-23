@@ -33,7 +33,7 @@ def test_twilio():
         send_welcome = True
                 
     # Re-enable a previously disabled customer.
-    if not cust.enabled and ("yes" in message_content.lower() or "subscribe" in message_content.lower()):
+    if not cust.enabled and ("yes" in message_content.lower() or "subscribe" in message_content.lower() or "start" in message_content.lower()):
         send_welcome = True
         cust.enabled = True
         cust.save()
