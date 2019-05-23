@@ -40,7 +40,7 @@ def test_twilio():
         
     # Parse out the time they want to receive texts    
     time_value = "".join([i for i in message_content if i.isdigit()])
-    if len(time_value) <= 6:
+    if len(time_value) <= 6 and > 0:
         good_time = False
         if len(time_value) in [1, 2]:
             hrs = int(time_value)
