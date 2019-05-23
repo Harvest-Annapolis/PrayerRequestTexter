@@ -22,6 +22,9 @@ def test_twilio():
     
     # Variable defaults
     send_welcome = False
+    welcome_string = "Thank you for subscribing to the Harvest Prayer Request text list.  You will currently receive a daily prayer request at {}.  To change this time, simply reply with the time you would prefer.  To stop these messages, simply reply STOP."
+    update_time_string = "You have adjusted the time you receive the daily prayer text to {}."
+    bad_command_string = "Sorry, I don't recognize that command."
     
     #Get the customer that's texting.
     cust = Customer.get_or_none(Customer.phone_number == phone_number) 
@@ -58,18 +61,21 @@ def test_twilio():
             cust.execute_time = datetime.datetime(2000,1,1,hrs,mins,0).time()
             cust.save()
 
+        # If statement that will send the welcome string if it's needed.  This could probably be better done in some sort of refactor...
         if not send_welcome:
-            status = send_message(cust.phone_number, "You have adjusted the time you receive the daily prayer text to {}.".format(cust.execute_time.strftime("%I:%M %p")))
+            status = send_message(cust.phone_number, update_time_string.format(cust.execute_time.strftime("%I:%M %p")))
+        else:    
+            status = send_message(cust.phone_number, welcome_string.format(cust.execute_time.strftime("%I:%M %p")))
     # Unsubscribe
     elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
         cust.enabled = False
         cust.save()
     # Command not recognized
     elif not send_welcome:
-        status = send_message(cust.phone_number, "Sorry, I don't recognize that command.")
+        status = send_message(cust.phone_number, bad_command_string)
     # Send a welcome message if they havent gotten one before.
     elif send_welcome:
-        status = send_message(cust.phone_number, "Thank you for subscribing to the Harvest Prayer Request text list.  You will currently receive a daily prayer request at {}.  To change this time, simply reply with the time you would prefer.  To stop these messages, simply reply STOP.".format(cust.execute_time.strftime("%I:%M %p")))
+        status = send_message(cust.phone_number, welcome_string.format(cust.execute_time.strftime("%I:%M %p")))
     
     # Make sure they get today's message if the time they picked hasn't passed yet.
     if datetime.datetime.now() < datetime.datetime.combine(datetime.datetime.now().date(), cust.execute_time):
