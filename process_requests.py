@@ -13,6 +13,5 @@ for cust in custs:
     cust.last_run_date = datetime.date.today()
     cust.save()
     
-    #status = send_message(cust.phone_number, prayer_request)
-    status = "Run"
+    status = send_message(cust.phone_number, prayer_request)
     print(status)
