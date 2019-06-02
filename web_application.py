@@ -26,7 +26,7 @@ def test_twilio():
     # Parse data from request.
     phone_number = request.form["phone_number"]
     message_content = request.form["message_content"]
-    web_submission = request.form["web_submission"]
+    web_submission = (request.form["web_submission"] == "True")
     time_value = "".join([i for i in message_content if i.isdigit()])
     
     # Variable defaults
