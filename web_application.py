@@ -50,7 +50,9 @@ def test_twilio():
         send_welcome = True
         cust.enabled = True
         cust.save()
-       
+    elif not cust.enabled
+        return render_template('failure.html') 
+        
             
     # Parse out the time they want to receive texts    
     if len(time_value) <= 6 and len(time_value) > 0:
@@ -75,8 +77,13 @@ def test_twilio():
         if not send_welcome:
             status = send_message(cust.phone_number, update_time_string.format(cust.execute_time.strftime("%I:%M %p")))
         else:    
-            status = send_message(cust.phone_number, welcome_string.format(cust.execute_time.strftime("%I:%M %p")))
-            
+            if web_submission:
+                status = send_message(cust.phone_number, web_new_string.format(cust.execute_time.strftime("%I:%M %p")))
+                cust.enabled = False
+                cust.save()
+            else:
+                status = send_message(cust.phone_number, welcome_string.format(cust.execute_time.strftime("%I:%M %p")))    
+                
         # Make sure they get today's message if the time they picked hasn't passed yet.
         if datetime.datetime.now() < datetime.datetime.combine(datetime.datetime.now().date(), cust.execute_time):
             cust.last_run_date = datetime.date.today() - datetime.timedelta(days=1)
@@ -84,7 +91,6 @@ def test_twilio():
         else:
             cust.last_run_date = datetime.date.today()
             cust.save()
-    
     # Unsubscribe
     elif "stop" in message_content.lower() or "unsubscribe" in message_content.lower():
         cust.enabled = False
