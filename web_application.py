@@ -50,7 +50,7 @@ def test_twilio():
         send_welcome = True
         cust.enabled = True
         cust.save()
-    elif not cust.enabled
+    elif not cust.enabled:
         return render_template('failure.html') 
         
             
