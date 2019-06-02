@@ -6,30 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
-
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <form action="test_info" method="post">
-      <div class="form-group">
-        <label for="phone_number">Phone Number</label>
-        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="(###)###-####">
-      </div>
-      <div class="form-group">
-        <label for="message_content">Time you want to receive prayer texts</label>
-        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-            <input type="text" name="message_content" placeholder="##:## AM" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
-            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-            </div>
-        </div>
-      </div>
-      <input type="hidden" name="web_submission" value="True" />
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -37,12 +17,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <form id="submission_form" action="test_info" method="post">
+      <div class="form-group">
+        <label for="phone_number">Phone Number</label>
+        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="(###)###-####">
+      </div>
+      <div class="form-group">
+        <label for="message_content">Time you want to receive prayer texts</label>
+        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+            <input type="text" id="message_content" name="message_content" placeholder="##:## AM" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
+            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+            </div>
+        </div>
+      </div>
+      <input type="hidden" name="web_submission" value="True" />
+      <button type="button" id="submit_btn" class="btn btn-primary">Submit</button>
+    </form>
+
     
     <script type="text/javascript">
         $(function () {
+            var IsNullOrWhitespace = function ( input ) {
+              return !input || !input.trim();
+            }
+            
             $('#datetimepicker3').datetimepicker({
                 format: 'LT'
             });
+            
+            $("#submit_btn").on("click", function() {
+                number = $("#phone_number").val().replace(/\D/g,'');
+                submit_number = false;
+                submit_time = false;
+                console.log(number);
+                if (IsNullOrWhitespace(number)) {
+                    alert("Invalid phone number.");
+                } else if (number.length == 10) {
+                    $("#phone_number").val("+1" + number)
+                    submit_number = true;              
+                } else if (number.length == 11) {
+                    $("#phone_number").val("+" + number)
+                    submit_number = true;
+                } else {
+                    alert("Invalid phone number.  Must be ten digits.");
+                }
+                
+                if (IsNullOrWhitespace($("#message_content").val())) {
+                    alert("Invalid time.");
+                } else {
+                    submit_time = true;
+                }
+                
+                if (submit_number && submit_time) {
+                    $("#submission_form").submit()
+                }
+            })
         });
     </script>
   </body>
