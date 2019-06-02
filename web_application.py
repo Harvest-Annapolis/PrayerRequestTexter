@@ -91,7 +91,7 @@ def test_twilio():
             status = send_message(cust.phone_number, web_new_string.format(cust.execute_time.strftime("%I:%M %p")))
             cust.enabled = False
             cust.save()
-        else
+        else:
             status = send_message(cust.phone_number, welcome_string.format(cust.execute_time.strftime("%I:%M %p")))    
     
     return render_template('success.html') 
