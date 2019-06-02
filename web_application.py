@@ -13,6 +13,13 @@ def index():
     Renders the homepage.
     """
     return render_template('index.html')
+
+@app.route('/web_submission')
+def web_form():
+    """
+    Renders the homepage.
+    """
+    return render_template('web_form.html')
     
 @app.route("/test_info", methods=["POST"])
 def test_twilio():
