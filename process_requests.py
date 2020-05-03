@@ -14,4 +14,4 @@ for cust in custs:
     cust.save()
     
     status = send_message(cust.phone_number, prayer_request)
-    print(status)
+    print("{} - Sent message to {}.  Status: {}.".format(datetime.datetime.now(), cust.phone_number, status))
